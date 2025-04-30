@@ -6,4 +6,13 @@ class User(UserMixin, db.Model):
     name = db.Column(db.String(100), unique=True)
     password = db.Column(db.String(200))
     isAdmin = db.Column(db.Boolean)
+    questionNum = db.Column(db.Integer)
+    hintNum = db.Column(db.Integer)
     
+
+class Question(UserMixin, db.Model):
+    id = db.Column(db.Integer, primary_key=True) # primary keys are required by SQLAlchemy
+    hint1 = db.Column(db.String(200))
+    hint2 = db.Column(db.String(200))
+    hint3 = db.Column(db.String(200))
+    answer = db.Column(db.String(100))

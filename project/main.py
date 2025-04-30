@@ -1,18 +1,10 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import login_required, current_user
 from . import db
+from .models import Question
 
 
 main = Blueprint('main', __name__)
-
-@main.route('/')
-def index():
-    return redirect(url_for('main.question', number=currentQ))
-
-@main.route('/profile')
-@login_required
-def profile():
-    return render_template("profile.html", name=current_user.name, isAdmin=current_user.isAdmin)
 
 ANSWERS = {
     "1": "green",
@@ -26,54 +18,52 @@ OPTIONS = {
     "Yellow": "Yellow"
 }
 
-currentQ = 1
-hint = 3
+
+@main.route('/')
+def index():
+    return redirect(url_for('main.question', number=1))
+
+@main.route('/profile')
+@login_required
+def profile():
+    return render_template("profile.html", name=current_user.name, isAdmin=current_user.isAdmin)
+
 
 @main.route("/q/<number>")
 @login_required
 def question(number=1):
-    if number == str(currentQ):
-        return render_template("question.html", number=number, hint=hint, options=OPTIONS)
+    # first_q = Question(hint1="What is the Lucas's favorite color?", hint2="Another name for emerald, jade, seafoam?", hint3="What color is grass?", answer="green")
+    # db.session.add(first_q)
+    # db.session.commit()
+
+    question = Question.query.filter_by(id=number).first()
+
+    if number == str(current_user.questionNum):
+        return render_template("question.html", number=current_user.questionNum, hintNum=current_user.hintNum, hint1=question.hint1, hint2=question.hint2, hint3=question.hint3, answer=question.answer, options=OPTIONS)
     else:
         return "Error wrong question page"
-    
-
-@main.route('/login', methods=['POST'])
-def login_post():
-    # login code goes here
-    name = request.form.get('name')
-    password = request.form.get('password')
-    remember = True if request.form.get('remember') else False
-
-    user = User.query.filter_by(name=name).first()
-
-    # check if the user actually exists
-    # take the user-supplied password, hash it, and compare it to the hashed password in the database
-    if not user or not check_password_hash(user.password, password):
-    # if not user or user.password != password:
-        flash('Please check your login details and try again.')
-        return redirect(url_for('auth.login')) # if the user doesn't exist or password is wrong, reload the page
-
-    # if the above check passes, then we know the user has the right credentials
-    login_user(user, remember=remember)
-    return redirect(url_for('main.profile'))
 
 
 @main.route("/result", methods=["POST"])
 @login_required
 def result():
-    global currentQ
     selected = request.form.get('option')
+
+    question = Question.query.filter_by(id=current_user.questionNum).first()
     
     # Check if an option was selected
     if not selected or selected not in OPTIONS:
-        return redirect(url_for('main.question', number=currentQ))
+        return redirect(url_for('main.question', number=current_user.questionNum))
     
     # Get the display name of the option
     option_name = OPTIONS.get(selected)
 
+    print(f"Correct answer: {question.answer}")
+    print(f"Chosen answer: {selected}")
+
     # if question was answered correctly, proceed to the next question
-    if ANSWERS.get(str(currentQ)) == "":
-        currentQ += 1
+    if question.answer == selected:
+        print("You chose the correct answer!")
+        # current_user.questionNum += 1
     
-    return render_template('result.html', option=selected, option_name=option_name, q=currentQ)
+    return render_template('result.html', option=selected, option_name=option_name, q=current_user.questionNum)
