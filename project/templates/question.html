@@ -29,8 +29,8 @@
         <div class="select is-info">
             <select id="option" name="option" required>
                 <option value="">-- Select an option --</option>
-                {% for key, value in options.items() %}
-                    <option value="{{ key }}">{{ value }}</option>
+                {% for value in options %}
+                    <option value="{{ value }}">{{ value }}</option>
                 {% endfor %}
             </select>
         </div>

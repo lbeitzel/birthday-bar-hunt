@@ -21,8 +21,7 @@
     <h1>Your Selection</h1>
     
     <div class="result">
-        <h2>You selected: {{ option_name }}</h2>
-        <p>Option value: {{ option }}</p>
+        <h2>You selected: {{ choice }}</h2>
     </div>
     
     <a href="{{ url_for('main.question', number=q) }}" class="back-link">← Go back to selection</a>
