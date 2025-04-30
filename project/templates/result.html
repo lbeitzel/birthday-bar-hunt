@@ -2,6 +2,20 @@
 
 {% block content %}
 
+{% if correctAns %}
+<h1 class="title">
+    Correct!
+<h1 class="title">
+    Please proceed to the next bar! 🍺
+</h1>
+{% else %}
+<h1 class="title">
+    Incorrect!
+</h1>
+<h1 class="title">
+    Please wait 5 minutes before guessing again :(
+</h1>
+{% endif %}
 
 <div class="container">
     <h1>Your Selection</h1>

@@ -6,16 +6,12 @@ from .models import Question
 
 main = Blueprint('main', __name__)
 
-ANSWERS = {
-    "1": "green",
-    "2": "blue"
-}
-
 OPTIONS = {
     "green": "Green",
     "purple": "Purple", 
     "red": "Red",
-    "Yellow": "Yellow"
+    "yellow": "Yellow",
+    "blue": "Blue"
 }
 
 
@@ -51,6 +47,8 @@ def result():
 
     question = Question.query.filter_by(id=current_user.questionNum).first()
     
+    correctAns = False
+
     # Check if an option was selected
     if not selected or selected not in OPTIONS:
         return redirect(url_for('main.question', number=current_user.questionNum))
@@ -64,6 +62,7 @@ def result():
     # if question was answered correctly, proceed to the next question
     if question.answer == selected:
         print("You chose the correct answer!")
+        correctAns = True
         # current_user.questionNum += 1
     
-    return render_template('result.html', option=selected, option_name=option_name, q=current_user.questionNum)
+    return render_template('result.html', option=selected, option_name=option_name, q=current_user.questionNum, correctAns=correctAns)
