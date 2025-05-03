@@ -6,7 +6,7 @@ from . import db
 
 auth = Blueprint('auth', __name__)
 
-@auth.route('/login')
+@auth.route('/')
 def login():
     return render_template("login.html")
 
@@ -34,7 +34,7 @@ def login_post():
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('main.index'))
+    return redirect(url_for('auth.login'))
 
 
 

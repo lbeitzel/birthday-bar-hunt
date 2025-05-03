@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Timer Running</title>
+    <style>
+        * {
+            text-align: center;
+        }
+        .timer {
+            font-size: 48px;
+            font-weight: bold;
+            
+            margin: 20px;
+        }
+        .warning {
+            color: red;
+            
+        }
+    </style>
+</head>
+<body>
+    <h1>Timer Reset</h1>
+
+    <h2>Cheaters never prosper (smh my head)</h2>
+
+    <div class="timer" id="countdown">10</div>
+    <p class="warning">Please wait until the timer finishes</p>
+    
+    <script>
+        // Get end time from server
+        const endTime = {{ session['timer_end'] }};
+        
+        // Update timer every second
+        function updateTimer() {
+            const now = Math.floor(Date.now() / 1000);
+            const remaining = endTime - now;
+            
+            if (remaining <= 0) {
+                // Timer complete, redirect to completion page
+                window.location.href = "{{ url_for('main.completion') }}";
+            } else {
+                // Update timer display
+                document.getElementById('countdown').textContent = remaining;
+                setTimeout(updateTimer, 1000);
+            }
+        }
+        
+        // Disable back button
+        window.history.pushState(null, null, window.location.href);
+        window.onpopstate = function() {
+            window.history.go(1);
+        };
+        
+        // Start the timer
+        updateTimer();
+    </script>
+</body>
+</html>
