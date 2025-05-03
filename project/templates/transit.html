@@ -32,6 +32,30 @@
 </div>
 
 <script>
+    // window.post = function(url) {
+    //     return fetch(url, {method: "POST", headers: {'Content-Type': 'application/json'}, body: JSON.stringify("sample")});
+    // }
+
+    // function to send post request via JS
+    function postRedirect(url, data) {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = url;
+
+        // Add data as hidden inputs
+        for (const key in data) {
+            if (data.hasOwnProperty(key)) {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = key;
+                input.value = data[key];
+                form.appendChild(input);
+            }
+        }
+        document.body.appendChild(form);
+        form.submit();
+    }
+
     // Get end time from server
     const endTime = {{ session['transit_timer'] }};
     
@@ -42,7 +66,9 @@
         
         if (remaining <= 0) {
             // Timer complete, redirect to completion page
-            window.location.href = "{{ url_for('main.quiz') }}";
+            // window.location.href = "{{ url_for('main.increment_bar') }}";
+            // post("{{ url_for('main.increment_bar') }}");
+            postRedirect("{{ url_for('main.increment_bar') }}", { name: 'Alice', score: 42 })
         } else {
             // Update timer display
             document.getElementById('countdown').textContent = remaining;

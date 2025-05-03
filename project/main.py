@@ -91,14 +91,20 @@ def quiz():
 
 
 @main.route('/next', methods=['POST'])
-def next_question():
+def next_question():   
+    # redirect to transit timer
+    return redirect(url_for('main.transit'))
+
+
+@main.route('/increment_bar', methods=['POST'])
+def increment_bar():   
     # increment to next bar
     current_user.questionNum += 1
     current_user.hintNum = 1
     db.session.commit()
-    
     # redirect to transit timer
-    return redirect(url_for('main.transit'))
+    return redirect(url_for('main.quiz'))
+
 
 @main.route('/reset', methods=['POST'])
 def reset_quiz():
@@ -123,7 +129,7 @@ def transit():
     # Set timer duration
     session['transit_timer'] = int(time.time()) + TIMER_DURATION
 
-    current_question = Question.query.filter_by(id=current_user.questionNum-1).first()
+    current_question = Question.query.filter_by(id=current_user.questionNum).first()
 
     if current_question and current_question.answer:
         return render_template('transit.html', answer=current_question.answer)
