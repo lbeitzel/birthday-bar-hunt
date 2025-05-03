@@ -7,7 +7,7 @@ import time
 
 main = Blueprint('main', __name__)
 
-TIMER_DURATION=5
+TIMER_DURATION=300
 MAX_HINTS=3
 MAX_BARS=8
 
