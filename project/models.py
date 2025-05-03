@@ -8,6 +8,7 @@ class User(UserMixin, db.Model):
     isAdmin = db.Column(db.Boolean)
     questionNum = db.Column(db.Integer)
     hintNum = db.Column(db.Integer)
+    currentBar = db.Column(db.Integer)
     
 
 class Question(UserMixin, db.Model):

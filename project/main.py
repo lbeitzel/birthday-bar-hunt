@@ -7,9 +7,9 @@ import time
 
 main = Blueprint('main', __name__)
 
-TIMER_DURATION=10
+TIMER_DURATION=5
 MAX_HINTS=3
-MAX_BARS=4
+MAX_BARS=8
 
 @main.route('/quiz', methods=['GET', 'POST'])
 @login_required
@@ -40,8 +40,9 @@ def quiz():
     # Get the current question
     questionNum = current_user.questionNum
     hintNum = current_user.hintNum
+    currentBar = current_user.currentBar
 
-    current_question = Question.query.filter_by(id=questionNum).first()
+    current_question = Question.query.filter_by(id=currentBar).first()
 
     # set the options for the current question
     # TODO: change for LBBR
@@ -82,7 +83,7 @@ def quiz():
                           hint3=current_question.hint3, 
                           answer=current_question.answer,
                           options=question_options,
-                          question_number=questionNum,
+                          question_number=currentBar,
                           total_questions=MAX_BARS,
                           result=result,
                           is_correct=is_correct,
@@ -100,6 +101,9 @@ def next_question():
 def increment_bar():   
     # increment to next bar
     current_user.questionNum += 1
+    current_user.currentBar += 1
+    if current_user.currentBar > 8:
+        current_user.currentBar = 1
     current_user.hintNum = 1
     db.session.commit()
     # redirect to transit timer
@@ -111,6 +115,16 @@ def reset_quiz():
     # resets quiz back to the beginning
     current_user.questionNum = 1
     current_user.hintNum = 1
+    if current_user.id == 1:
+        current_user.currentBar = 1
+    if current_user.id == 2:
+        current_user.currentBar = 1
+    if current_user.id == 3:
+        current_user.currentBar = 3
+    if current_user.id == 4:
+        current_user.currentBar = 5
+    if current_user.id == 5:
+        current_user.currentBar = 7
     db.session.commit()
 
     return redirect(url_for('main.quiz'))
@@ -129,7 +143,7 @@ def transit():
     # Set timer duration
     session['transit_timer'] = int(time.time()) + TIMER_DURATION
 
-    current_question = Question.query.filter_by(id=current_user.questionNum).first()
+    current_question = Question.query.filter_by(id=current_user.currentBar).first()
 
     if current_question and current_question.answer:
         return render_template('transit.html', answer=current_question.answer)
