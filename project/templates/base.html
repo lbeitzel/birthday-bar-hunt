@@ -22,12 +22,38 @@
           });
         });
     </script>
+    <!-- Custom CSS to override Bulma hero spacing -->
+    <style>
+        html{
+            background-color: hsl(171, 100%, 41%);
+        }
+        .navbar-menu{
+            background-color: hsl(171, 100%, 41%);
+        }
+        .navbar-item{
+            color: hsl(0, 0%, 100%);
+        }
+        /* Override Bulma's default vertical centering */
+        /* .hero.is-fullheight {
+            align-items: flex-start;
+        } */
+        /* Remove padding from hero-body */
+        .hero-body {
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+        /* Custom class for top alignment */
+        .is-top-aligned {
+            align-items: flex-start;
+            padding-top: 1rem; /* Minimal top padding */
+        }
+    </style>
     {% block extra_style %}
     {% endblock %}
 </head>
 
 <body>
-    <section class="hero is-primary is-fullheight">
+    <section class="is-primary is-fullheight">
         <div class="hero-head">
             <nav class="navbar is-primary" role="navigation" aria-label="main navigation">
                 <div class="container">
@@ -64,7 +90,7 @@
             </nav>
         </div>
 
-        <div class="hero-body">
+        <div class="hero-body is-top-aligned">
             <div class="container has-text-centered">
                {% block content %}
                {% endblock %}
