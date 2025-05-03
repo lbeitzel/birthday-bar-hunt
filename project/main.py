@@ -55,7 +55,7 @@ def quiz():
             # print(f"real answer: {current_question.answer}")
             if selected_answer == current_question.answer:
             # if selected_answer == question:
-                result = "Correct! Click Next to continue."
+                result = f"Correct! Proceed to {current_question.answer} and get your 2 drinks before continuing! 🏃‍♂️🏃‍♀️"
                 is_correct = True
                 # session['correct_count'] = session.get('correct_count', 0) + 1
 

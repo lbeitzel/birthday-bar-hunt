@@ -86,6 +86,9 @@
         font-weight: bold;
         margin: 20px;
     }
+    fieldset {
+        border: 0;
+    }
 </style>
 {% endblock %}
 
@@ -153,9 +156,12 @@
                 {% endfor %}
             </select>
             
-            <div class="button-container" {% if selected_answer %}disabled{% endif %}>
-                <button type="submit" class="is-size-5" id="submitBtn">Check Answer</button>
-            </div>
+            <!-- <div class="button-container" {% if selected_answer %}disabled{% endif %}> -->
+            <fieldset {% if selected_answer %}disabled{% endif %}>
+                <div class="button-container">
+                    <button type="submit" class="is-size-5" id="submitBtn">Check Answer</button>
+                </div>
+            </fieldset>
         </form>
         
         {% if is_correct %}
@@ -199,6 +205,7 @@
         
         if (remaining <= 0) {
             // Timer complete, redirect to completion page
+            
             window.location.href = "{{ url_for('main.completion') }}";
         } else {
             // Update timer display
