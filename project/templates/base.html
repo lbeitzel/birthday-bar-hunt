@@ -7,6 +7,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Bar Hunt</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css" />
+    <!-- Navbar burger menu toggle script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          const burger = document.querySelector('.navbar-burger');
+          const menu = document.getElementById(burger.dataset.target);
+        
+          burger.addEventListener('click', () => {
+            burger.classList.toggle('is-active');
+            menu.classList.toggle('is-active');
+          });
+        });
+    </script>
     {% block extra_style %}
     {% endblock %}
 </head>
@@ -14,9 +26,21 @@
 <body>
     <section class="hero is-primary is-fullheight">
         <div class="hero-head">
-            <nav class="navbar">
+            <nav class="navbar is-primary" role="navigation" aria-label="main navigation">
                 <div class="container">
-                    <div id="navbarMenuHeroA" class="navbar-menu is-active">
+                    <div class="navbar-brand">
+                        <a class="navbar-item" href="{{ url_for('main.quiz') }}">
+                            <strong>MyApp</strong>
+                        </a>
+                        
+                        <!-- Hamburger menu button (mobile) -->
+                        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu">
+                            <span aria-hidden="true"></span>
+                            <span aria-hidden="true"></span>
+                            <span aria-hidden="true"></span>
+                        </a>
+                    </div>
+                    <div id="navbarMenu" class="navbar-menu">
                         <div class="navbar-end">
                             <a href="{{ url_for('main.quiz') }}" class="navbar-item">
                                 Quiz
