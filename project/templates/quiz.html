@@ -46,6 +46,7 @@
     }
     .result {
         margin-top: 20px;
+        margin-bottom: 10px;
         padding: 10px;
         border-radius: 4px;
     }
@@ -78,6 +79,7 @@
     }
     .warning {
         color: red;
+        margin-bottom: 20px;
     }
     .timer {
         font-size: 48px;
@@ -96,6 +98,19 @@
         <div class="current_progress is-size-5">
             Bar {{ question_number }} of {{ total_questions }}
         </div>
+
+        {% if result %}
+        <div class="result {% if is_correct %}correct{% else %}incorrect{% endif %}">
+            {{ result }}
+        </div>
+        {% endif %}
+
+        {% if wrong_answer %}
+        <h2 class="is-size-5">Timer Running</h2>
+        <h1 class="timer title has-text-dark is-size-2 has-text-centered" id="countdown">5</h1>
+        <p class="warning is-size-5">Please wait until the timer finishes</p>
+        {% endif %}
+
         
         <form method="POST" id="quiz-form">
             <!-- <div class="question">{{ hint }}</div> -->
@@ -142,12 +157,6 @@
                 <button type="submit" class="is-size-5" id="submitBtn">Check Answer</button>
             </div>
         </form>
-
-        {% if wrong_answer %}
-        <h2 class="is-size-5">Timer Running</h2>
-        <h1 class="timer title has-text-dark is-size-2 has-text-centered" id="countdown">10</h1>
-        <p class="warning is-size-5">Please wait until the timer finishes</p>
-        {% endif %}
         
         {% if is_correct %}
         <form action="/next" method="POST" style="margin-top: 10px; margin-left: 0px;">
@@ -155,11 +164,7 @@
         </form>
         {% endif %}
         
-        {% if result %}
-        <div class="result {% if is_correct %}correct{% else %}incorrect{% endif %}">
-            {{ result }}
-        </div>
-        {% endif %}
+        
     </div>
 </div>
 

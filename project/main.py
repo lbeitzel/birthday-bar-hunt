@@ -7,60 +7,13 @@ import time
 
 main = Blueprint('main', __name__)
 
-
-
-# Quiz questions
-# quiz_questions = [
-#     {
-#         "question": "What is the capital of France?",
-#         "options": ["London", "Berlin", "Paris", "Madrid"],
-#         "correct_answer": "Paris"
-#     },
-#     {
-#         "question": "Which planet is known as the Red Planet?",
-#         "options": ["Venus", "Mars", "Jupiter", "Saturn"],
-#         "correct_answer": "Mars"
-#     },
-#     # {
-#     #     "question": "What is the largest ocean on Earth?",
-#     #     "options": ["Atlantic Ocean", "Indian Ocean", "Arctic Ocean", "Pacific Ocean"],
-#     #     "correct_answer": "Pacific Ocean"
-#     # },
-#     # {
-#     #     "question": "What is the chemical symbol for gold?",
-#     #     "options": ["Go", "Gd", "Au", "Ag"],
-#     #     "correct_answer": "Au"
-#     # },
-#     # {
-#     #     "question": "Who painted the Mona Lisa?",
-#     #     "options": ["Vincent van Gogh", "Pablo Picasso", "Leonardo da Vinci", "Michelangelo"],
-#     #     "correct_answer": "Leonardo da Vinci"
-#     # }
-# ]
-
-timer_duration=5
+TIMER_DURATION=5
 MAX_HINTS=3
-MAX_BARS=2
+MAX_BARS=4
 
 @main.route('/quiz', methods=['GET', 'POST'])
 @login_required
 def quiz():
-    # Initialize session variables if they don't exist
-    # if 'current_question' not in session:
-    #     session['current_question'] = 0
-        # session['correct_count'] = 0
-        # session['total_questions'] = len(quiz_questions)
-    
-    # Check if we've completed all questions
-    # if session['current_question'] >= len(quiz_questions):
-    # if session['current_question'] >= quiz_questions:
-        # Quiz is complete, show results
-        # correct_count = session['correct_count']
-        # total_questions = session['total_questions']
-        # Reset the quiz
-        # session.pop('current_question', None)
-        # session.pop('correct_count', None)
-        # session.pop('total_questions', None)
     if current_user.questionNum > MAX_BARS:
         return render_template('quiz_complete.html')
     
@@ -80,15 +33,13 @@ def quiz():
     # Get the current question
     questionNum = current_user.questionNum
     hintNum = current_user.hintNum
-    # current_q_index = session['current_question']
-    # print(current_q_index)
-    # current_question = quiz_questions[current_q_index]
-    # current_question = str(Question.query.filter_by(id=current_q_index).first())
+
     current_question = Question.query.filter_by(id=questionNum).first()
-    # current_hint = current_question.hint1
-    # question = Question.query.filter_by(id=number).first()
-    options = Option.query.filter_by(id=current_user.id).first()
-    question_options = [options.option1, options.option2, options.option3, options.option4, options.option5]
+
+    # set the options for the current question
+    # TODO: change for LBBR
+    options = Option.query.filter_by(id=1).first()
+    question_options = [options.option1, options.option2, options.option3, options.option4, options.option5, options.option6, options.option7, options.option8, options.option9, options.option10, options.option11, options.option12]
     
 
     # if number == str(current_user.questionNum):
@@ -120,7 +71,7 @@ def quiz():
                 db.session.commit()
 
                 # Set timer duration to 10 seconds
-                session['timer_end'] = int(time.time()) + timer_duration
+                session['timer_end'] = int(time.time()) + TIMER_DURATION
 
     print(current_question.hint1)
     print(current_question.hint2)
@@ -237,7 +188,7 @@ def result():
 @main.route('/timer')
 def timer():
     # Set timer duration
-    session['timer_end'] = int(time.time()) + timer_duration
+    session['timer_end'] = int(time.time()) + TIMER_DURATION
     return render_template('timer.html')
 
 
