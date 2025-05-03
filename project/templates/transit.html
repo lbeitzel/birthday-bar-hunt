@@ -22,10 +22,9 @@
 {% block content %}
 <div class="column is-4 is-offset-4">
     <div class="box quiz-container">
-        <h1 class="title is-size-2 has-text-dark">Timer Reset</h1>
-
-        <h2 class="is-size-4 cheater">Cheaters never prosper</h2>
-        <h2 class="is-size-5 cheater">(smh 😤)</h2>
+        <h1 class="title is-size-3 has-text-dark">Proceed to:</h1>
+        <h1 class="title is-size-1 has-text-dark"><b>{{answer}}</b></h1>
+        <h1 class="title is-size-3 has-text-dark">and get your 2 drinks before continuing! 🏃‍♂️🏃‍♀️</h1>
 
         <div class="timer title has-text-dark is-size-2 has-text-centered" id="countdown">10</div>
         <p class="warning">Please wait until the timer finishes</p>
@@ -34,7 +33,7 @@
 
 <script>
     // Get end time from server
-    const endTime = {{ session['timer_end'] }};
+    const endTime = {{ session['transit_timer'] }};
     
     // Update timer every second
     function updateTimer() {
@@ -43,7 +42,7 @@
         
         if (remaining <= 0) {
             // Timer complete, redirect to completion page
-            window.location.href = "{{ url_for('main.completion') }}";
+            window.location.href = "{{ url_for('main.quiz') }}";
         } else {
             // Update timer display
             document.getElementById('countdown').textContent = remaining;
