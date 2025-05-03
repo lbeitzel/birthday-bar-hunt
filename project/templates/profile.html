@@ -1,16 +1,28 @@
 {% extends "base.html" %}
 
+{% block extra_style %}
+<style>
+    .msg {
+        font-size: 24px;
+        margin: 20px 0;
+        color: #2c3e50;
+    }
+    .warning {
+        color: red;
+        
+    }
+</style>
+{% endblock %}
+
 {% block content %}
-<h1 class="title">
-  Welcome, {{ name }}!
-</h1>
+<div class="column is-4 is-offset-4">
+    <div class="box quiz-container">
+        <h1 class="title is-size-2 has-text-dark">Welcome, {{ name }}!</h1>
+        {% if isAdmin %}
+            <h2 class="msg is-size-4">Welcome admin</h2>
+        {% endif %}
 
-{% if isAdmin %}
-<h2>
-  Welcome admin
-</h2>
-{% endif %}
-
-<a href="{{ url_for('main.quiz') }}" style="color: yellow;">Start Game</a>
-
+        <a href="{{ url_for('main.quiz') }}" style="color: blue;">Start Game</a>
+    </div>
+</div>
 {% endblock %}

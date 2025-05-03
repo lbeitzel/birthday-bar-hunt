@@ -1,58 +1,62 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Timer Running</title>
-    <style>
-        * {
-            text-align: center;
-        }
-        .timer {
-            font-size: 48px;
-            font-weight: bold;
-            
-            margin: 20px;
-        }
-        .warning {
-            color: red;
-            
-        }
-    </style>
-</head>
-<body>
-    <h1>Timer Reset</h1>
+{% extends "base.html" %}
 
-    <h2>Cheaters never prosper (smh my head)</h2>
+{% block extra_style %}
+<style>
+    .timer {
+        font-size: 48px;
+        font-weight: bold;
+        margin: 20px;
+    }
+    .cheater {
+        font-size: 24px;
+        margin: 20px 0;
+        color: #2c3e50;
+    }
+    .warning {
+        color: red;
+        
+    }
+</style>
+{% endblock %}
 
-    <div class="timer" id="countdown">10</div>
-    <p class="warning">Please wait until the timer finishes</p>
+{% block content %}
+<div class="column is-4 is-offset-4">
+    <div class="box quiz-container">
+        <h1 class="title is-size-2 has-text-dark">Timer Reset</h1>
+
+        <h2 class="is-size-4 cheater">Cheaters never prosper (smh my head)</h2>
+
+        <div class="timer title has-text-dark is-size-2 has-text-centered" id="countdown">10</div>
+        <p class="warning">Please wait until the timer finishes</p>
+    </div>
+</div>
+
+<script>
+    // Get end time from server
+    const endTime = {{ session['timer_end'] }};
     
-    <script>
-        // Get end time from server
-        const endTime = {{ session['timer_end'] }};
+    // Update timer every second
+    function updateTimer() {
+        const now = Math.floor(Date.now() / 1000);
+        const remaining = endTime - now;
         
-        // Update timer every second
-        function updateTimer() {
-            const now = Math.floor(Date.now() / 1000);
-            const remaining = endTime - now;
-            
-            if (remaining <= 0) {
-                // Timer complete, redirect to completion page
-                window.location.href = "{{ url_for('main.completion') }}";
-            } else {
-                // Update timer display
-                document.getElementById('countdown').textContent = remaining;
-                setTimeout(updateTimer, 1000);
-            }
+        if (remaining <= 0) {
+            // Timer complete, redirect to completion page
+            window.location.href = "{{ url_for('main.completion') }}";
+        } else {
+            // Update timer display
+            document.getElementById('countdown').textContent = remaining;
+            setTimeout(updateTimer, 1000);
         }
-        
-        // Disable back button
-        window.history.pushState(null, null, window.location.href);
-        window.onpopstate = function() {
-            window.history.go(1);
-        };
-        
-        // Start the timer
-        updateTimer();
-    </script>
-</body>
-</html>
+    }
+    
+    // Disable back button
+    window.history.pushState(null, null, window.location.href);
+    window.onpopstate = function() {
+        window.history.go(1);
+    };
+    
+    // Start the timer
+    updateTimer();
+</script>
+{% endblock %}
