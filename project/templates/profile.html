@@ -20,9 +20,10 @@
         <h1 class="title is-size-2 has-text-dark">Welcome, {{ name }}!</h1>
         {% if isAdmin %}
             <h2 class="msg is-size-4">Welcome admin</h2>
-            <a href="{{ url_for('main.quiz') }}" style="color: blue;">Admin Portal</a>
+            <a href="{{ url_for('main.admin') }}" style="color: blue;">Admin Portal</a>
         {% endif %}
-
+        <br>
+        <br>
         <a href="{{ url_for('main.quiz') }}" style="color: blue;">Start Game</a>
     </div>
 </div>

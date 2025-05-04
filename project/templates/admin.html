@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="column is-4 is-offset-4">
+    <div class="box quiz-container">
+        <h1 class="title is-size-2 has-text-dark">Admin Portal</h1>
+        <br>
+        <a href="{{ url_for('main.profile') }}" style="color: blue;">Return to the quiz</a>
+
+        <h2><b>Team 1</b></h2>
+        <ul>
+            <li>Question number: {{team1_prog}}/8</li>
+            <li>Current Bar: {{team1_bar}}</li>
+        </ul>
+        <br>
+        <h2><b>Team 2</b></h2>
+        <ul>
+            <li>Question number: {{team2_prog}}/8</li>
+            <li>Current Bar: {{team2_bar}}</li>
+        </ul>
+        <br>
+        <h2><b>Team 3</b></h2>
+        <ul>
+            <li>Question number: {{team3_prog}}/8</li>
+            <li>Current Bar: {{team3_bar}}</li>
+        </ul>
+        <br>
+        <h2><b>Team 4</b></h2>
+        <ul>
+            <li>Question number: {{team4_prog}}/8</li>
+            <li>Current Bar: {{team4_bar}}</li>
+        </ul>
+    </div>
+</div>
+{% endblock %}

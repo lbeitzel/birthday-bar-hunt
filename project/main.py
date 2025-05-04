@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session
 from flask_login import login_required, current_user
 from . import db
-from .models import Question, Option
+from .models import Question, Option, User
 import time
 
 
@@ -185,3 +185,42 @@ def profile():
             return redirect(url_for('main.timer'))
     
     return render_template("profile.html", name=current_user.name, isAdmin=current_user.isAdmin)
+
+
+@main.route('/admin')
+def admin():
+    print(current_user.isAdmin)
+
+    if current_user.isAdmin:
+        team1 = User.query.filter_by(id=2).first()
+        team2 = User.query.filter_by(id=3).first()
+        team3 = User.query.filter_by(id=4).first()
+        team4 = User.query.filter_by(id=5).first()
+
+        team1_prog = team1.questionNum
+        team2_prog = team2.questionNum
+        team3_prog = team3.questionNum
+        team4_prog = team4.questionNum
+
+        bar_dict = {
+            1: "Shangri-la",
+            2: "Yellow Jacket",
+            3: "Lazarus",
+            4: "Lucky Duck",
+            5: "Violet Crown",
+            6: "Latchkey",
+            7: "Hotel Vegas",
+            8: "Grackle",
+        }
+
+        team1_bar = bar_dict[team1.currentBar]
+        team2_bar = bar_dict[team2.currentBar]
+        team3_bar = bar_dict[team3.currentBar]
+        team4_bar = bar_dict[team4.currentBar]
+
+
+        return render_template("admin.html", team1_prog=team1_prog, team2_prog=team2_prog, team3_prog=team3_prog, team4_prog=team4_prog,
+                               team1_bar=team1_bar, team2_bar=team2_bar, team3_bar=team3_bar, team4_bar=team4_bar)
+    else:
+        return "<p>Go away!</p>"
+    
