@@ -7,7 +7,8 @@ import time
 
 main = Blueprint('main', __name__)
 
-TIMER_DURATION=300
+TRANSIT_DURATION=300
+TIMER_DURATION=150
 MAX_HINTS=3
 MAX_BARS=8
 
@@ -45,7 +46,6 @@ def quiz():
     current_question = Question.query.filter_by(id=currentBar).first()
 
     # set the options for the current question
-    # TODO: change for LBBR
     options = Option.query.filter_by(id=1).first()
     question_options = [options.option1, options.option2, options.option3, options.option4, options.option5, options.option6, options.option7, options.option8, options.option9, options.option10, options.option11, options.option12]
     
@@ -60,7 +60,7 @@ def quiz():
             if selected_answer == current_question.answer:
                 result = f"Correct! Select \"Next Bar\" to continue!"
                 is_correct = True
-                session['next_bar_timer'] = int(time.time()) + TIMER_DURATION
+                session['next_bar_timer'] = int(time.time()) + TRANSIT_DURATION
 
             else:
                 result = f"Incorrect. Try again!"
