@@ -60,7 +60,7 @@ def quiz():
             if selected_answer == current_question.answer:
                 result = f"Correct! Select \"Next Bar\" to continue!"
                 is_correct = True
-                session['next_bar_timer'] = int(time.time()) + TRANSIT_DURATION
+                session['next_bar_timer'] = int(time.time()) + TIMER_DURATION
 
             else:
                 result = f"Incorrect. Try again!"
