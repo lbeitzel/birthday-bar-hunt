@@ -8,7 +8,7 @@ import time
 main = Blueprint('main', __name__)
 
 TRANSIT_DURATION=300
-TIMER_DURATION=150
+TIMER_DURATION=10
 MAX_HINTS=3
 MAX_BARS=8
 
